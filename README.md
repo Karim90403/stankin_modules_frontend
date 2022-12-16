@@ -1,4 +1,9 @@
-# stankin_modules
+## Welcome to stankin_modules
+
+in this app used Vue.js + TypeScript 
+
+# Installed CLI Plugins
+babel,router,vuex,eslint,typescript
 
 ## Project setup
 ```
@@ -19,6 +24,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
