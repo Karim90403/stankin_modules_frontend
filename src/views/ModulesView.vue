@@ -1,3 +1,20 @@
+<script setup lang="ts">
+import { defineComponent,ref } from 'vue';
+import Module from '@/components/Module.vue'; // @ is an alias to /src
+let id = 0;
+const modules = ref<Array<any>>([
+  { name: "Компьютерная графика и геометрия", firstModule: 45, secondModule: 54, offset: 45, id: id++ },
+  { name: "Архитектура ЭВМ и ВС", firstModule: 54, secondModule: 54, exam: 45, id: id++ },
+  { name: "Программирование специализированных вычислительных устройств", firstModule: 45, secondModule: 45, exam: 54, id: id++ },
+  { name: "Политология", firstModule: 45, secondModule: 54, offset: 45, id: id++ },
+  { name: "Физика", firstModule: 54, secondModule: 54, exam: 45, id: id++ },
+  { name: "Иностранный язык", firstModule: 45, secondModule: 45, offset: 54, id: id++ },
+  { name: "Философия", firstModule: 45, secondModule: 54, offset: 45, id: id++ },
+  { name: "Учебная практика", firstModule: 54, secondModule: 54, offset: 45, id: id++ },
+  { name: "Объектно ориентированное программирование", firstModule: 45, secondModule: 45, exam: 54, id: id++ },
+])
+</script>
+
 <template>
   <div class="flex justify-center items-center h-screen">
     <table class="w-4/5 shadow-2xl table-auto rounded bg-white sm:w-1/2">
@@ -35,30 +52,3 @@ td {
   }
 }
 </style>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import Module from '@/components/Module.vue'; // @ is an alias to /src
-let id = 0;
-export default defineComponent({
-  name: 'HomeView',
-  data() {
-    return {
-      modules: [
-        { name: "Компьютерная графика и геометрия", firstModule: 45, secondModule: 54, offset: 45, id: id++ },
-        { name: "Архитектура ЭВМ и ВС", firstModule: 54, secondModule: 54, exam: 45, id: id++ },
-        { name: "Программирование специализированных вычислительных устройств", firstModule: 45, secondModule: 45, exam: 54, id: id++ },
-        { name: "Политология", firstModule: 45, secondModule: 54, offset: 45, id: id++ },
-        { name: "Физика", firstModule: 54, secondModule: 54, exam: 45, id: id++ },
-        { name: "Иностранный язык", firstModule: 45, secondModule: 45, offset: 54, id: id++ },
-        { name: "Философия", firstModule: 45, secondModule: 54, offset: 45, id: id++ },
-        { name: "Учебная практика", firstModule: 54, secondModule: 54, offset: 45, id: id++ },
-        { name: "Объектно ориентированное программирование", firstModule: 45, secondModule: 45, exam: 54, id: id++ },
-      ]
-    }
-  },
-  components: {
-    Module,
-  }
-})
-</script>

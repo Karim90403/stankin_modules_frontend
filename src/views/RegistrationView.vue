@@ -1,3 +1,36 @@
+<script setup lang="ts">
+import { defineComponent,ref } from 'vue';
+import router from '../router/index';
+import { useStore } from 'vuex';
+
+const store: any = useStore();
+const userLogin = ref<string>("")
+const userPassword = ref<string>("")
+const showMessage = ref<boolean>(false)
+const isUserRegistred = ref<boolean>(false)
+const isNeedRegistration = ref<boolean>(true)
+
+const Verify = async () => {
+  try {
+    router.push('/')
+    store.state.verify = true
+  }catch (error) {
+    console.log(error);
+    isUserRegistred.value = true
+  }
+}
+
+const Login = async () => {
+  try {
+    router.push('/')
+    store.state.verify = true
+  }catch (error) {
+    console.log(error);
+    showMessage.value = true
+  }
+}
+</script>
+
 <template>
     <div class="flex justify-center">
       <div class="mt-52 w-4/5 p-16 shadow-2xl rounded bg-white sm:w-1/2">
@@ -57,7 +90,7 @@
               </div>
               <div>
                   <button type="submit"
-                      class="group relative text-center py-2 px-20 border border-transparent font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 sm:text-2xl lg:text-sm">
+                      class="group relative text-center cursor-pointer  py-2 px-20 border border-transparent font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 sm:text-2xl lg:text-sm">
                       Войти
                   </button>
               </div>
@@ -66,43 +99,3 @@
       </div>
     </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import router from '../router/index';
-import { useStore } from 'vuex';
-
-const store: any = useStore;
-export default defineComponent({
-  name: 'RegisterView',
-  data() {
-    return{
-      userLogin: "",
-      userPassword: "",
-      showMessage: false,
-      isUserRegistred: false,
-      isNeedRegistration: true,
-    }
-  },
-  methods:{
-    async Verify(){
-      try {
-        router.push('/')
-        store.state.verify = true
-      }catch (error) {
-        console.log(error);
-        this.isUserRegistred = true
-      }
-    },
-    async Login(){
-      try {
-        router.push('/')
-        store.state.verify = true
-      }catch (error) {
-        console.log(error);
-        this.showMessage = true
-      }
-    },
-  }
-});
-</script>
