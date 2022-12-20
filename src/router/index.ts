@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import RegistrationView from '../views/RegistrationView.vue'
 import TimetableView from '../views/TimetableView.vue'
 import ModulesView from '../views/ModulesView.vue'
+import OtherPeopleView from '../views/OtherPeopleView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -18,6 +19,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/modules',
     name: 'modules',
     component: ModulesView
+  },
+  {
+    path: '/otherPeople',
+    name: 'otherPeople',
+    component: OtherPeopleView
   },
 ]
 

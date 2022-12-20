@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineComponent,ref } from 'vue';
+import { ref } from 'vue';
 import router from '../router/index';
 import { useStore } from 'vuex';
 
@@ -36,9 +36,9 @@ const Login = async () => {
       <div class="mt-52 w-4/5 p-16 shadow-2xl rounded bg-white sm:w-1/2">
         <span class="flex justify-center"><img alt="logo" class="w-52" src="../assets/logo.svg"></span>
         <div class="flex justify-center">
-            <h1 class="cursor-pointer text-3xl text-center text-black my-4" :class="isNeedRegistration ? 'underline' : 0" @click="isNeedRegistration = true">Регистрация</h1>
-            <span class="text-3xl text-center text-black my-4">/</span>
-            <h1 class="cursor-pointer text-3xl text-center text-black my-4" :class="!isNeedRegistration ? 'underline' : 0" @click="isNeedRegistration = false">Авторизация</h1>
+            <h1 class="cursor-pointer text-xl text-center text-black my-4 sm:text-3xl" :class="isNeedRegistration ? 'underline' : 0" @click="isNeedRegistration = true">Регистрация</h1>
+            <span class="text-xl text-center text-black my-4 sm:text-3xl">/</span>
+            <h1 class="cursor-pointer text-xl text-center text-black my-4 sm:text-3xl" :class="!isNeedRegistration ? 'underline' : 0" @click="isNeedRegistration = false">Авторизация</h1>
         </div>
         <div v-if="isNeedRegistration">
           <div v-if="isUserRegistred" class="text-xl mx-auto text-center text-red-400 my-2">Пользователь с данным именем уже зарегестрирован</div>
@@ -62,7 +62,7 @@ const Login = async () => {
               </div>
               <div>
                   <button type="submit"
-                      class="group relative text-center py-2 px-7 border border-transparent font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 sm:text-2xl lg:text-sm">
+                      class="group relative text-center py-2 px-7 border border-transparent font-medium rounded-md text-white bg-slate-500 hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-700 sm:text-2xl lg:text-sm">
                       Зарегестрироваться
                   </button>
               </div>
@@ -90,7 +90,7 @@ const Login = async () => {
               </div>
               <div>
                   <button type="submit"
-                      class="group relative text-center cursor-pointer  py-2 px-20 border border-transparent font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 sm:text-2xl lg:text-sm">
+                      class="group relative text-center cursor-pointer  py-2 px-20 border border-transparent font-medium rounded-md text-white bg-slate-500 hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-700 sm:text-2xl lg:text-sm">
                       Войти
                   </button>
               </div>

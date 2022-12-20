@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineComponent,ref } from 'vue';
+import { ref } from 'vue';
 import Timetable from '@/components/Timetable.vue'; // @ is an alias to /src
 let id = 0
 

@@ -5,21 +5,34 @@ import { useStore } from 'vuex';
 
 const isModules = ref<boolean>(false)
 const isTimetable = ref<boolean>(true)
+const isOtherPeople = ref<boolean>(false)
 const store = useStore()
 
 const toModules = ():void => {
-    if(isTimetable.value){
+    if(!isModules.value){
       router.push('/modules')
       isModules.value = true;
-      isTimetable.value = false
+      isTimetable.value = false;
+      isOtherPeople.value = false;
     }
 }
 
 const toTimetable = ():void => {
-  if(isModules.value){
+  if(!isTimetable.value){
     router.push('/')
       isModules.value = false;
-      isTimetable.value = true
+      isTimetable.value = true;
+      isOtherPeople.value = false;
+  }
+}
+
+const toOtherPeople = ():void => {
+  if(!isOtherPeople.value){
+    router.push('/otherPeople')
+      isModules.value = false;
+      isTimetable.value = false;
+      isOtherPeople.value = true;
+
   }
 }
 
@@ -37,8 +50,11 @@ onMounted(() => {
       <span class="cursor-pointer px-2 block mb-5" @click="toModules()">
         <img alt="modules" class="p-2 rounded-full" src="./assets/modules.svg" :class="isModules ? 'bg-gray-200' : 'bg-white'">
       </span>
-      <span class="cursor-pointer px-2 block" @click="toTimetable()">
+      <span class="cursor-pointer px-2 block mb-5" @click="toTimetable()">
         <img alt="timetable" class="p-2 rounded-full" src="./assets/calendar.svg" :class="isTimetable ? 'bg-gray-200' : 'bg-white'">
+      </span>
+      <span class="cursor-pointer px-2 block" @click="toOtherPeople()">
+        <img alt="others" class="p-2 rounded-full" src="./assets/others.svg" :class="isOtherPeople ? 'bg-gray-200' : 'bg-white'">
       </span>
     </div>
   </div>
@@ -50,6 +66,9 @@ onMounted(() => {
         </span>
         <span class="cursor-pointer w-12 px-2 block" @click="toTimetable()">
           <img alt="timetable" class="p-2 rounded-full" src="./assets/calendar.svg" :class="isTimetable ? 'bg-gray-200' : 'bg-white'">
+        </span>
+        <span class="cursor-pointer w-12 px-2 block" @click="toOtherPeople()">
+          <img alt="others" class="p-2 rounded-full" src="./assets/others.svg" :class="isOtherPeople ? 'bg-gray-200' : 'bg-white'">
         </span>
       </div>
     </div>
