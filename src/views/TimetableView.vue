@@ -31,14 +31,14 @@ const Activate = (id: number): void => {
 </script>
 
 <template>
-  <img class="h-7 absolute top-3 cursor-pointer  left-3 sm:top-20 sm:left-12 sm:h-10" src="../assets/left.png">
-  <div class="flex mt-0 bg-transparent overflow-y-scroll ml-10 sm:left-0 w-4/5 sm:w-full sm:ml-0 sm:mt-16 sm:justify-center sm:items-center">
-    <div v-for="item in items" :key="item.id" class="flex items-center cursor-pointer  px-4 py-3 mx-3 rounded-full shadow flex-col sm:h-auto" :class="item.isActive ? 'bg-slate-300' : 'bg-white hover:bg-slate-200'" @click="Activate(item.id)">
+  <img class="h-7 absolute top-5 cursor-pointer  left-3 sm:top-24 sm:left-12 sm:h-10" src="../assets/left.png">
+  <div class="flex mt-1 bg-transparent overflow-y-scroll ml-10 sm:left-0 w-4/5 sm:w-full sm:ml-0 sm:mt-16 sm:justify-center sm:items-center">
+    <div v-for="item in items" :key="item.id" class="flex items-center cursor-pointer transition duration-300 my-2 px-4 py-3 mx-3 rounded-full shadow flex-col sm:h-auto" :class="item.isActive ? 'bg-slate-300' : 'bg-white hover:bg-slate-200'" @click="Activate(item.id)">
       <span class="text-xs sm:text-sm">{{item.dayWeek}}</span>
       <span class="text-xs sm:text-sm">{{item.date}}</span>
     </div>  
   </div>
-  <img class="h-7 absolute top-3 cursor-pointer right-3 sm:top-20 sm:right-12 sm:h-10"  src="../assets/right.png">
+  <img class="h-7 absolute top-5 cursor-pointer right-3 sm:top-24 sm:right-12 sm:h-10"  src="../assets/right.png">
 
 
   <div class="flex items-center flex-col mt-12">
