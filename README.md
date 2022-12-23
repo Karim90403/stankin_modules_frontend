@@ -1,26 +1,6 @@
-## Welcome to stankin_modules
+## Добро пожаловать в stankin_modules
 
-in this app used Vue.js + TypeScript 
-
-# Installed CLI Plugins
-babel,router,vuex,eslint,typescript
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
+Это обновленный модульный журнал станкина
+Он послужит отличной заменой андроид приложения,
+Пользователи iphone, android смартфонов,и ноутбуков смогут посмотреть свои модули, свое расписание и расписание преподователей
+Так же существенно переработан дизайн
