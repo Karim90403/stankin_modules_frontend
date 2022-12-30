@@ -1,9 +1,9 @@
 <template>
-    <tr class="border-b border-gray-500">
-        <td class="border-r border-gray-500">{{subjectName}}</td>
-        <td class="border-r border-gray-500 text-center">{{firstModule}}</td>
-        <td class="border-r border-gray-500 text-center">{{secondModule}}</td>
-        <td class="border-r border-gray-500 text-center">{{offset}}</td>
+    <tr class="border-b text- border-gray-500 sm:text-base">
+        <td>{{subjectName}}</td>
+        <td class="text-center">{{firstModule}}</td>
+        <td class="text-center">{{secondModule}}</td>
+        <td class="text-center">{{offset}}</td>
         <td class="text-center">{{exam}}</td>
     </tr>
 </template>

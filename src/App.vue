@@ -50,11 +50,13 @@ onMounted(() => {
     if(!store.state.verify){
       router.push('/register')
     }
-    if(store.state.group.length>0){
+    else{
+      if(store.state.group.length>0){
       router.push('/timetable')
-    }
-    else if(store.state.group.length == 0){
-      router.push('/otherPeople')
+      }
+      else{
+        router.push('/otherPeople')
+      }
     }
 })
 </script>

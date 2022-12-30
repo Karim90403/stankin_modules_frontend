@@ -16,7 +16,15 @@ const groupList = ref<Array<string>>([
     "ИДБ-21-01",
     "ИДБ-21-02",
     "ИДБ-21-03",
-    "ИДБ-21-04"
+    "ИДБ-21-04",
+    "ИДБ-21-05",
+    "ИДБ-21-06",
+    "ИДБ-21-07",
+    "ИДБ-21-08",
+    "ИДБ-21-09",
+    "ИДБ-21-10",
+    "ИДБ-21-11",
+    "ИДБ-21-12",
 ])
 
 const professorList = ref<Array<string>>([
@@ -32,6 +40,16 @@ const toTimetable = ():void => {
     store.state.isTimetable = true;
     store.state.isOtherPeople = false;
   }
+}
+
+const changeInput = (newValue:string):void => {
+    activeFlag.value = true
+    inputValue.value = newValue
+}
+
+const blureInput = ():void => {
+    const chengeFlag = ():void => {activeFlag.value = false}
+    setTimeout(chengeFlag,100)
 }
 
  const filtredList = computed(():Array<string> =>{
@@ -56,9 +74,9 @@ const toTimetable = ():void => {
                 <span class="text-lg cursor-pointer transition duration-300 sm:text-xl" :class="!isProfessor ? 'text-emerald-300 border-b border-emerald-300' : 'text-slate-400 hover:border-b hover:border-slate-400'" @click="watchGroup()">Группы</span>
                 <span class="text-lg cursor-pointer transition duration-300 sm:text-xl" :class="isProfessor ? 'text-emerald-300 border-b border-emerald-300' : 'text-slate-400 hover:border-b hover:border-slate-400'" @click="watchProfessor()">Преподавателя</span>
             </div>
-            <div class="flex justify-center mt-10 mb-5">
+            <div class="flex justify-center mt-10">
                 <div class="flex w-5/6 items-center border-b border-slate-500 py-2 sm:w-2/3">
-                    <input class="appearance-none text-xs bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none sm:text-lg" v-model="inputValue" @focus="activeFlag = true" @blur="activeFlag = false" type="text" :placeholder="isProfessor ? 'Введите ФИО': 'Введите номер'" aria-label="Full name">
+                    <input class="appearance-none text-xs bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none sm:text-lg" v-model="inputValue" @focus="activeFlag = true" @blur="blureInput()" type="text" :placeholder="isProfessor ? 'Введите ФИО': 'Введите номер'" aria-label="Full name">
                     <button class="flex-shrink-0 bg-slate-500 text-xs hover:bg-slate-700 border-slate-500 hover:border-slate-700 border-2 text-white py-1 px-2 rounded sm:text-sm sm:border-4" type="button">
                     Ввести
                     </button>
@@ -69,16 +87,16 @@ const toTimetable = ():void => {
             </div>
             <div class="flex justify-center absolute w-screen z-10 right-0">
                 <div class="w-4/5 flex justify-center sm:w-1/2">
-                    <ul class="px-2 py-2 w-5/6 shadow-md bg-slate-50 opacity-95 transition-all duration-300 ease-in-out h-auto rounded sm:w-2/3" v-if="filtredList.length > 0" :class="activeFlag ? '' : 'h-0 py-0 overflow-hidden'">
-                        <li v-for="(name) in filtredList" :key="name"
-                            class="px-2 py-1 sm:text-2xl lg:text-xl">
+                    <ul class="px-2 py-2 w-5/6 overflow-x-scroll shadow-xl rounded-t-none text-base bg-slate-100 transition-all duration-300 ease-in-out h-auto max-h-60 rounded sm:max-h-72 sm:w-2/3 sm:text-sm" v-if="filtredList.length > 0" :class="activeFlag ? '' : 'h-0 py-0 overflow-hidden'">
+                        <li v-for="(name) in filtredList" :key="name" @click="changeInput(name)"
+                            class="px-2 py-1 cursor-pointer sm:text-2xl lg:text-xl">
                             {{ name }}
                         </li>
                     </ul>
                 </div>
                 
             </div>
-            <div class="flex justify-center my-3">
+            <div class="flex justify-center mb-3 mt-8">
                 <span class="group relative text-center cursor-pointer mt-5 py-2 w-2/3 border text-xs font-medium rounded-md text-white bg-slate-500 hover:bg-slate-600 focus:ring-2 focus:ring-offset-2 focus:ring-slate-700 sm:text-2xl lg:text-sm sm:w-1/2" @click="toTimetable()">
                     Посмотреть расписание
                 </span>
