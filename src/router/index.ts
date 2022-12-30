@@ -11,7 +11,7 @@ const routes: Array<RouteRecordRaw> = [
     component: RegistrationView
   },
   {
-    path: '/',
+    path: '/timetable',
     name: 'timetable',
     component: TimetableView
   },

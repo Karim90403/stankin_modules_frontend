@@ -1,37 +1,46 @@
 <script setup lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import router from './router/index';
 import { useStore } from 'vuex';
 
-const isModules = ref<boolean>(false)
-const isTimetable = ref<boolean>(true)
-const isOtherPeople = ref<boolean>(false)
 const store = useStore()
 
+const isModules = computed(():boolean =>{
+    return store.state.isModules
+})
+
+const isTimetable = computed(():boolean =>{
+    return store.state.isTimetable
+})
+
+const isOtherPeople = computed(():boolean =>{
+    return store.state.isOtherPeople
+})
+
 const toModules = ():void => {
-    if(!isModules.value){
+    if(!store.state.isModules){
       router.push('/modules')
-      isModules.value = true;
-      isTimetable.value = false;
-      isOtherPeople.value = false;
+      store.state.isModules = true;
+      store.state.isTimetable = false;
+      store.state.isOtherPeople = false;
     }
 }
 
 const toTimetable = ():void => {
-  if(!isTimetable.value){
-    router.push('/')
-      isModules.value = false;
-      isTimetable.value = true;
-      isOtherPeople.value = false;
+  if(!store.state.isTimetable){
+    router.push('/timetable')
+    store.state.isModules = false;
+    store.state.isTimetable.value = true;
+    store.state.isOtherPeople.value = false;
   }
 }
 
 const toOtherPeople = ():void => {
-  if(!isOtherPeople.value){
+  if(!store.state.sOtherPeople){
     router.push('/otherPeople')
-      isModules.value = false;
-      isTimetable.value = false;
-      isOtherPeople.value = true;
+    store.state.isModules = false;
+    store.state.isTimetable = false;
+    store.state.isOtherPeople = true;
 
   }
 }
@@ -40,6 +49,12 @@ onMounted(() => {
   console.log(useStore())
     if(!store.state.verify){
       router.push('/register')
+    }
+    if(store.state.group.length>0){
+      router.push('/timetable')
+    }
+    else if(store.state.group.length == 0){
+      router.push('/otherPeople')
     }
 })
 </script>
