@@ -41,7 +41,7 @@ const Activate = (id: number): void => {
   <img class="h-7 absolute top-5 cursor-pointer right-3 z-10 sm:top-24 sm:right-12 sm:h-10"  src="../assets/right.png">
 
 
-  <div class="flex items-center flex-col mt-12" v-if="subjects.length < 0">
+  <div class="flex items-center flex-col mt-12" v-if="subjects.length > 0">
     <Timetable 
     v-for="subject in subjects"
     :key="subject.id"
@@ -52,9 +52,10 @@ const Activate = (id: number): void => {
     :professor="subject.professor"
     :typeSubject="subject.typeOf"
     ></Timetable>
+    <div class="mt-4 w-4/5 px-5 py-3 h-20 shadow-xl rounded bg-gradient-to-r from-white flex justify-between items-center sm:w-1/2"></div>
+
   </div>
-  <div class="text-center absolute top-0 -z-10 text-xl w-screen h-screen flex flex-col justify-center items-center sm:text-2xl§  Бвшм сдфыы=Эеуче-сутеук фиыщдгеу ещз-0 еуче-чд ц-ыскуут р-ыскуут адуч адуч-сщд огыешан-сутеук шеуьы-сутеук ыьЖеуче-2чд>Э м-удыуЮ
-" v-else>
+  <div class="text-center absolute top-0 -z-10 text-xl w-screen h-screen flex flex-col justify-center items-center sm:text-2xl" v-else>
     <img src="../assets/chill.svg" class="w-1/4">
     Нет пар
   </div>
