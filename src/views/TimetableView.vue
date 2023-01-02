@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import Timetable from '@/components/Timetable.vue'; // @ is an alias to /src
 let id = 0
+const groupChecker = ref<boolean>(true)
 
 const items = ref<Array<any>>([
   {dayWeek: "Пн", date: 12.12, id: id++, isActive: true},
@@ -55,8 +56,12 @@ const Activate = (id: number): void => {
     <div class="mt-4 w-4/5 px-5 py-3 h-20 shadow-xl rounded bg-gradient-to-r from-white flex justify-between items-center sm:w-1/2"></div>
 
   </div>
-  <div class="text-center absolute top-0 -z-10 text-xl w-screen h-screen flex flex-col justify-center items-center sm:text-2xl" v-else>
-    <img src="../assets/chill.svg" class="w-1/4">
+  <div class="text-center absolute top-0 -z-10 text-xl w-screen h-screen flex flex-col justify-center items-center sm:text-2xl" v-else-if="groupChecker">
+    <img src="../assets/chill.svg" class="w-1/4" alt="chill">
     Нет пар
+  </div>
+  <div class="text-center absolute top-0 -z-10 text-xl w-screen h-screen flex flex-col justify-center items-center sm:text-2xl" v-else-if="!groupChecker">
+    <img src="../assets/alt-sub.svg" class="w-1/4" alt="not correct grpup">
+    Не удалось обнаружить вашу группу
   </div>
 </template>
