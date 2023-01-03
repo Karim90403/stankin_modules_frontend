@@ -1,26 +1,29 @@
-## Welcome to stankin_modules
+## Добро пожаловать в stankin_modules
 
-in this app used Vue.js + TypeScript 
+Это обновленный модульный журнал станкина
+Он послужит отличной заменой андроид приложения,
+Пользователи iphone, android смартфонов,и ноутбуков смогут посмотреть свои модули, свое расписание и расписание преподователей
+Так же существенно переработан дизайн
 
-# Installed CLI Plugins
-babel,router,vuex,eslint,typescript
+Тут осуществлена работа с Апи [Станкин бота](https://apps.sdore.me/StankinBot) и [Модульного журнала](https://github.com/stankin/mj)
 
-## Project setup
+## Работа с приложением ##
+
+Так как это программа `open sourse`, можно доработать ее саммому
+Эта программа использует `Vue.js` + `TypeScript `
+
+# Установка
 ```
+
 npm install
 ```
 
-### Compiles and hot-reloads for development
+# Компиляция и перезагрузка/запуск
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+# Компиляция
 ```
 npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
 ```

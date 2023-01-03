@@ -1,8 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import Module from '@/components/Module.vue'; // @ is an alias to /src
+import TheModule from '@/components/TheModule.vue'; // @ is an alias to /src
 let id = 0;
-const modules = ref<Array<any>>([
+
+interface module{
+  name: string,
+  firstModule: number,
+  secondModule: number,
+  offset?: number,
+  exam?: number,
+  id: number
+}
+
+const modules = ref<Array<module>>([
   { name: "Компьютерная графика и геометрия", firstModule: 45, secondModule: 54, offset: 45, id: id++ },
   { name: "Архитектура ЭВМ и ВС", firstModule: 54, secondModule: 54, exam: 45, id: id++ },
   { name: "Программирование специализированных вычислительных устройств", firstModule: 45, secondModule: 45, exam: 54, id: id++ },
@@ -18,21 +28,21 @@ const modules = ref<Array<any>>([
 <template>
   <div class="flex justify-center items-center h-screen">
     <table class="w-4/5 shadow-2xl table-auto rounded bg-white sm:w-1/2">
-      <thead>
+      <thead class="text-sm sm:text-base">
         <tr class="border-b-2 border-gray-500">
-          <td class="border-r border-gray-500">Предмет</td>
-          <td class="border-r border-gray-500 text-center">М1</td>
-          <td class="border-r border-gray-500 text-center">М2</td>
-          <td class="border-r border-gray-500 text-center">Зач</td>
+          <td>Предмет</td>
+          <td class=" text-center">М1</td>
+          <td class=" text-center">М2</td>
+          <td class=" text-center">Зач</td>
           <td>Экз</td>
         </tr>
       </thead>
       <tbody>
-        <Module v-for="subject in modules" :key="subject.id" :subjectName="subject.name"
+        <TheModule v-for="subject in modules" :key="subject.id" :subjectName="subject.name"
           :firstModule=subject.firstModule :secondModule=subject.secondModule :offset="subject.offset"
-          :exam="subject.exam"></Module>
+          :exam="subject.exam"></TheModule>
         <tr>
-          <td class="">
+          <td class="text-xs sm:text-base">
             Ожидаемый рейтинг: 54
           </td>
         </tr>
