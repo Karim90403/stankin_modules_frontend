@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import Module from '@/components/Module.vue'; // @ is an alias to /src
+import TheModule from '@/components/TheModule.vue'; // @ is an alias to /src
 let id = 0;
 
 interface module{
@@ -27,8 +27,7 @@ const modules = ref<Array<module>>([
 
 <template>
   <div class="flex justify-center items-center h-screen">
-    <table class="w-4/5 shadow-2xl table-auto    Бефиду сдфыы=Эц-4/5 ырфвщц-2чд ефиду-фгещ кщгтвув ип-цршеу ыьЖц-1/2ЭЮ
- rounded bg-white sm:w-1/2">
+    <table class="w-4/5 shadow-2xl table-auto rounded bg-white sm:w-1/2">
       <thead class="text-sm sm:text-base">
         <tr class="border-b-2 border-gray-500">
           <td>Предмет</td>
@@ -39,9 +38,9 @@ const modules = ref<Array<module>>([
         </tr>
       </thead>
       <tbody>
-        <Module v-for="subject in modules" :key="subject.id" :subjectName="subject.name"
+        <TheModule v-for="subject in modules" :key="subject.id" :subjectName="subject.name"
           :firstModule=subject.firstModule :secondModule=subject.secondModule :offset="subject.offset"
-          :exam="subject.exam"></Module>
+          :exam="subject.exam"></TheModule>
         <tr>
           <td class="text-xs sm:text-base">
             Ожидаемый рейтинг: 54
