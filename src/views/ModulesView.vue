@@ -2,7 +2,17 @@
 import { ref } from 'vue';
 import Module from '@/components/Module.vue'; // @ is an alias to /src
 let id = 0;
-const modules = ref<Array<any>>([
+
+interface module{
+  name: string,
+  firstModule: number,
+  secondModule: number,
+  offset?: number,
+  exam?: number,
+  id: number
+}
+
+const modules = ref<Array<module>>([
   { name: "Компьютерная графика и геометрия", firstModule: 45, secondModule: 54, offset: 45, id: id++ },
   { name: "Архитектура ЭВМ и ВС", firstModule: 54, secondModule: 54, exam: 45, id: id++ },
   { name: "Программирование специализированных вычислительных устройств", firstModule: 45, secondModule: 45, exam: 54, id: id++ },

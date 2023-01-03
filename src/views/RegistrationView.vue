@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import router from '../router/index';
 import { useStore } from 'vuex';
 
-const store: any = useStore();
+const store = useStore();
 const userLogin = ref<string>("")
 const userGroup = ref<string>("")
 const userPassword = ref<string>("")
