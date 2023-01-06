@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import router from '../router/index';
 import { useStore } from 'vuex';
+// import axios from 'axios';
 
 const store = useStore();
 
@@ -12,6 +13,7 @@ const showMessage = ref<boolean>(false)
 
 const Login = async () => {
   try {
+    // await axios.post("http://localhost:8023/api/registration", { login: userLogin.value, password: userPassword.value, group: userGroup.value })
     router.push('/timetable')
     store.state.verify = true
     store.state.isTimetable = true

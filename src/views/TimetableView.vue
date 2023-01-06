@@ -1,45 +1,32 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import TheTimetable from '@/components/TheTimetable.vue'; // @ is an alias to /src
+import { DatePicker } from 'v-calendar';
+import BaseIcon from '@/components/BaseIcon.vue';
+import 'v-calendar/dist/style.css';
 
-let id = 0
 
-interface day{
-  dayWeek: string,
-  date: number,
-  id: number,
-  isActive: boolean
-}
-
-const days = ref<Array<day>>([
-  {dayWeek: "Пн", date: 12.12, id: id++, isActive: true},
-  {dayWeek: "Вт", date: 13.12, id: id++, isActive: false},
-  {dayWeek: "Ср", date: 14.12, id: id++, isActive: false},
-  {dayWeek: "Чт", date: 15.12, id: id++, isActive: false},
-  {dayWeek: "Пт", date: 16.12, id: id++, isActive: false},
-  {dayWeek: "Сб", date: 17.12, id: id++, isActive: false},
-  {dayWeek: "Вс", date: 18.12, id: id++, isActive: false},
-])
-
-const Activate = (id: number): void => {
-  days.value.forEach(item =>{
-  if (item.id == id) {
-    item.isActive = true;
-  } else if (item.id != id && item.isActive == true){
-    item.isActive = false;
-  }
- })
-}
+const date = ref<Date>(new Date());
 </script>
 
 <template>
-  <img class="h-7 absolute top-5 cursor-pointer  left-3 z-10 sm:top-24 sm:left-12 sm:h-10" src="../assets/left.png">
-  <div class="flex mt-1 bg-transparent overflow-y-scroll z-10 ml-10 sm:left-0 w-4/5 sm:w-full sm:ml-0 sm:mt-16 sm:justify-center sm:items-center">
-    <div v-for="item in days" :key="item.id" class="flex items-center cursor-pointer transition duration-300 my-2 px-4 py-3 mx-3 rounded-full shadow flex-col sm:h-auto" :class="item.isActive ? 'bg-slate-300' : 'bg-white hover:bg-slate-200'" @click="Activate(item.id)">
-      <span class="text-xs sm:text-sm">{{item.dayWeek}}</span>
-      <span class="text-xs sm:text-sm">{{item.date}}</span>
-    </div>  
-  </div>
-  <img class="h-7 absolute top-5 cursor-pointer right-3 z-10 sm:top-24 sm:right-12 sm:h-10"  src="../assets/right.png">
+  <div class="flex justify-center mt-8 sm:mt-12">
+  <DatePicker v-model="date" :min-date="new Date()">
+    <template v-slot="{ inputValue, togglePopover }">
+      <div class="flex justify-center">
+        <button
+          class="p-2 bg-blue-100 border border-gray-300 shadow-xl hover:bg-gray-300 text-gray-600 rounded-l focus:bg-gray-500 focus:text-white focus:border-garay-500 focus:outline-none"
+          @click="togglePopover()">
+          <BaseIcon icon="calendar" viewBox="0 0 20 20" class="w-4 h-4 fill-current"/>
+        </button>
+        <input
+          class="bg-white text-gray-700 w-3/5 flex-grow shadow-xl py-1 px-2 appearance-none border rounded-r focus:outline-none focus:border-blue-500 sm:w-1/3"
+          readonly
+          :value="inputValue"
+        />
+      </div>
+    </template>
+  </DatePicker>   
+  </div>  
   <TheTimetable></TheTimetable>
 </template>
