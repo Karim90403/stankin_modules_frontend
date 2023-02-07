@@ -283,7 +283,7 @@ const lecturersList = ref<Array<string>>([
 
 const toTimetable = ():void => {
   if(!store.state.isTimetable){
-    router.push('/timetable')
+    router.push('/')
     store.state.isModules = false;
     store.state.isTimetable = true;
     store.state.isOtherPeople = false;
@@ -304,8 +304,8 @@ onMounted(async () => {
     try {
         let resGroups = await axios.get("https://api.stbot.sdore.me/schedule/groups/")
         let resLectures = await axios.get("https://api.stbot.sdore.me/lecturer/")
-        console.log("группы",resGroups.data)
-        console.log("преподы",resLectures.data)
+        console.log("группы",resGroups)
+        console.log("преподы",resLectures)
     }catch (error) {
         console.log(error);
     }
@@ -330,16 +330,13 @@ const filtredList = computed(():Array<string> =>{
         <div class="w-4/5 shadow-2xl py-7 rounded bg-white sm:w-1/2">
             <span class="text-xl text-center block w-full text-black sm:text-2xl">Узнать расписание</span>
             <div class="flex justify-around my-10">
-                <span class="text-lg cursor-pointer transition duration-300 sm:text-xl" :class="!isProfessor ? 'text-emerald-300 border-b border-emerald-300' : 'text-slate-400 hover:border-b hover:border-slate-400'" @click="watchGroup()">Группы</span>
-                <span class="text-lg cursor-pointer transition duration-300 sm:text-xl" :class="isProfessor ? 'text-emerald-300 border-b border-emerald-300' : 'text-slate-400 hover:border-b hover:border-slate-400'" @click="watchProfessor()">Преподавателя</span>
+                <span class="text-lg cursor-pointer transition duration-300 sm:text-xl" :class="!isProfessor ? 'text-cyan-600 border-b border-cyan-600' : 'text-slate-400 hover:border-b hover:border-slate-400'" @click="watchGroup()">Группы</span>
+                <span class="text-lg cursor-pointer transition duration-300 sm:text-xl" :class="isProfessor ? 'text-cyan-600 border-b border-cyan-600' : 'text-slate-400 hover:border-b hover:border-slate-400'" @click="watchProfessor()">Преподавателя</span>
             </div>
             <div class="flex justify-center mt-10">
                 <div class="flex w-5/6 items-center border-b border-slate-500 py-2 sm:w-2/3">
                     <input class="appearance-none text-xs bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none sm:text-lg" v-model="inputValue" @focus="activeFlag = true" @blur="blureInput()" type="text" :placeholder="isProfessor ? 'Введите ФИО': 'Введите номер'" aria-label="Full name">
-                    <button class="flex-shrink-0 bg-slate-500 text-xs shadow-md drop-shadow-2xl hover:bg-slate-700 border-slate-500 hover:border-slate-700 border-2 text-white py-1 px-2 rounded sm:text-sm sm:border-4" type="button">
-                    Ввести
-                    </button>
-                    <button class="flex-shrink-0 text-xs border-transparent ml-1 shadow-md drop-shadow-2xl border-2 text-slate-500 hover:text-slate-800 py-1 px-2 rounded sm:text-sm sm:border-4" type="button" @click="clearValue()">
+                    <button class="flex-shrink-0 bg-slate-500 text-xs shadow-md drop-shadow-2xl hover:bg-slate-700 border-slate-500 hover:border-slate-700 border-2 text-white py-1 px-2 rounded sm:text-sm sm:border-4" type="button" @click="clearValue">
                     Стереть
                     </button>
                 </div>
@@ -348,7 +345,7 @@ const filtredList = computed(():Array<string> =>{
                 <div class="w-4/5 flex justify-center sm:w-1/2">
                     <ul class="px-2 py-2 w-5/6 overflow-x-scroll shadow-xl rounded-t-none text-base bg-slate-100 transition-all duration-300 ease-in-out h-auto max-h-60 rounded sm:max-h-72 sm:w-2/3 sm:text-sm" v-if="filtredList.length > 0" :class="activeFlag ? '' : 'h-0 py-0 overflow-hidden'">
                         <li v-for="(name) in filtredList" :key="name" @click="changeInput(name)"
-                            class="px-2 py-1 cursor-pointer sm:text-2xl lg:text-xl">
+                            class="px-2 py-1 cursor-pointer w-full sm:text-2xl lg:text-xl">
                             {{ name }}
                         </li>
                     </ul>

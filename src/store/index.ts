@@ -6,6 +6,7 @@ export default createStore({
     isModules : false,
     isTimetable: true,
     isOtherPeople: false,
+    token: "",
     group: ""
   },
   getters: {

@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <tr class="border-b text- border-gray-500 sm:text-base">
+    <tr class="border-b text-sm border-gray-500 sm:text-base">
         <td>{{props.subjectName}}</td>
         <td class="text-center">{{props.firstModule}}</td>
         <td class="text-center">{{props.secondModule}}</td>

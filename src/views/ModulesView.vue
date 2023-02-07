@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref,onMounted } from 'vue';
 import TheModule from '@/components/TheModule.vue'; // @ is an alias to /src
 let id = 0;
+
+const userCode = ref<boolean>(true);
 
 interface module{
   name: string,
@@ -23,6 +25,12 @@ const modules = ref<Array<module>>([
   { name: "Учебная практика", firstModule: 54, secondModule: 54, offset: 45, id: id++ },
   { name: "Объектно ориентированное программирование", firstModule: 45, secondModule: 45, exam: 54, id: id++ },
 ])
+
+onMounted( () => {
+  if(userCode.value){
+    window.location.href = 'https://lk.stankin.ru/webapi/oauth/authorize?response_type=code&client_id=StankinModules&redirect_uri=https://localhost:8080/oauthresponse'
+  }
+})
 </script>
 
 <template>
@@ -42,7 +50,7 @@ const modules = ref<Array<module>>([
           :firstModule=subject.firstModule :secondModule=subject.secondModule :offset="subject.offset"
           :exam="subject.exam"></TheModule>
         <tr>
-          <td class="text-xs sm:text-base">
+          <td class="text-sm sm:text-base">
             Ожидаемый рейтинг: 54
           </td>
         </tr>
