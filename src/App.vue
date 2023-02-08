@@ -35,16 +35,11 @@ const toOtherPeople = ():void => {
 }
 
 onMounted(() => {
+    if(localStorage.getItem("userToken")){
+      store.state.verify = true;
+    }
     if(!store.state.verify){
       router.push('/register')
-    }
-    else{
-      if(store.state.group.length>0){
-      router.push('/')
-      }
-      else{
-        router.push('/otherPeople')
-      }
     }
 })
 </script>

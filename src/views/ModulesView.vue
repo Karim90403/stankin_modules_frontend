@@ -3,7 +3,6 @@ import { ref,onMounted } from 'vue';
 import TheModule from '@/components/TheModule.vue'; // @ is an alias to /src
 let id = 0;
 
-const userCode = ref<boolean>(true);
 
 interface module{
   name: string,
@@ -27,7 +26,7 @@ const modules = ref<Array<module>>([
 ])
 
 onMounted( () => {
-  if(userCode.value){
+  if(!localStorage.getItem("accessToken")){
     window.location.href = 'https://lk.stankin.ru/webapi/oauth/authorize?response_type=code&client_id=StankinModules&redirect_uri=https://localhost:8080/oauthresponse'
   }
 })

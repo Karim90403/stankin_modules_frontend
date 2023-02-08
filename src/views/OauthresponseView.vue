@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router'
+import router from '../router/index';
 import { useStore } from 'vuex';
 import axios from 'axios';
 
@@ -15,11 +16,13 @@ onMounted(() => {
 
 onMounted(async () => {
     try {
-        let r = await axios.post("http://localhost:8014/api/getToken", {
+        let response = await axios.post("http://localhost:8014/api/getToken", {
             code: route.query.code
         })
-        store.state.token = r.data.access_token
-        console.log(store.state.token)
+        console.log(response.data.access_token); 
+        store.state.access_token = response.data.access_token
+        localStorage.setItem("accessToken", JSON.stringify(store.state.access_token))
+        router.push("/modules")
     } catch (error) {
         console.log(error);
     }

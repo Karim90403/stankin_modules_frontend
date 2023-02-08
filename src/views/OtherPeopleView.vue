@@ -302,10 +302,10 @@ const blureInput = ():void => {
 
 onMounted(async () => {
     try {
-        let resGroups = await axios.get("https://api.stbot.sdore.me/schedule/groups/")
-        let resLectures = await axios.get("https://api.stbot.sdore.me/lecturer/")
-        console.log("группы",resGroups)
-        console.log("преподы",resLectures)
+        let resGroups = await axios.get("http://localhost:8014/api/getGroups")
+        let resLectures = await axios.get("http://localhost:8014/api/getLecturers")
+        console.log("группы",resGroups.data)
+        console.log("преподы",resLectures.data)
     }catch (error) {
         console.log(error);
     }
@@ -353,7 +353,7 @@ const filtredList = computed(():Array<string> =>{
                 
             </div>
             <div class="flex justify-center mb-3 mt-8">
-                <span class="group relative text-center shadow-xl drop-shadow-2xl cursor-pointer mt-5 py-2 w-2/3 border border-slate-500 text-xs font-medium rounded-md text-white bg-slate-500 hover:bg-slate-600 focus:ring-2 focus:ring-offset-2 focus:ring-slate-700 sm:text-2xl lg:text-sm sm:w-1/2" @click="toTimetable()">
+                <span class="group relative text-center shadow-xl drop-shadow-2xl cursor-pointer mt-5 py-2 w-2/3 border border-slate-500 text-xs font-medium rounded-md text-white bg-slate-500 hover:bg-slate-600 focus:ring-2 focus:ring-offset-2 focus:ring-slate-700 lg:text-sm sm:w-1/2" @click="toTimetable()">
                     Посмотреть расписание
                 </span>
              </div>

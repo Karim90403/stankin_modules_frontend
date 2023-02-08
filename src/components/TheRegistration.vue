@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import router from '../router/index';
 import { useStore } from 'vuex';
-// import axios from 'axios';
+import axios from 'axios';
 
 const store = useStore();
 
@@ -13,10 +13,11 @@ const userPassword = ref<string>("")
 
 const Verify = async () => {
   try {
-    // await axios.post("http://localhost:8023/api/autorisation", { login: userLogin.value, password: userPassword.value })
+    let response = await axios.post("http://localhost:8014/api/registration", { login: userLogin.value, password: userPassword.value, group: userGroup.value })
     router.push('/')
     store.state.verify = true
     store.state.isTimetable = true
+    localStorage.setItem("userToken", JSON.stringify(response.data.token))
   }catch (error) {
     console.log(error);
     isUserRegistred.value = true
