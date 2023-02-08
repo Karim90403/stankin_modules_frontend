@@ -47,9 +47,6 @@ onMounted(() => {
 <template>
   <div v-if="store.state.verify" class="p-4 top-1/3 absolute hidden w-24 sm:block">
     <div class="py-4 px-2 text-gray-900 bg-white rounded shadow-lg ">
-      <span class="cursor-pointer block transition text-slate-400 duration-300 rounded-full mb-5">
-        <BaseIcon icon="user" viewBox="0 0 16 16" class="fill-current"/>
-      </span>
       <span class="cursor-pointer block transition duration-300 rounded-full mb-5" @click="toModules()" :class="store.state.isModules ? 'text-blue-300' : 'text-slate-400'">
         <BaseIcon icon="modules" viewBox="0 0 100 100" class="fill-current"/>
       </span>
@@ -64,9 +61,6 @@ onMounted(() => {
 
   <div v-if="store.state.verify" class="p-4 w-full block fixed bottom-0 sm:hidden">
       <div class="p-2 text-gray-900 bg-white rounded-lg shadow-lg drop-shadow-xl flex justify-around">
-        <span class="cursor-pointer w-12 px-2 block transition duration-300 text-slate-400">
-          <BaseIcon icon="user" viewBox="0 0 16 16" class="fill-current"/>
-        </span>
         <span class="cursor-pointer w-12 px-2 block transition duration-300" @click="toModules()" :class="store.state.isModules ? 'text-blue-300' : 'text-slate-400'">
           <BaseIcon icon="modules" viewBox="0 0 100 100" class="fill-current"/>
         </span>
