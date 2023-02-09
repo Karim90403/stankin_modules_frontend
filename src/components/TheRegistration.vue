@@ -8,12 +8,11 @@ const store = useStore();
 
 const isUserRegistred = ref<boolean>(false)
 const userLogin = ref<string>("")
-const userGroup = ref<string>("")
 const userPassword = ref<string>("")
 
 const Verify = async () => {
   try {
-    let response = await axios.post("http://localhost:8014/api/registration", { login: userLogin.value, password: userPassword.value, group: userGroup.value })
+    let response = await axios.post("http://localhost:8014/api/registration", { login: userLogin.value, password: userPassword.value })
     router.push('/')
     store.state.verify = true
     store.state.isTimetable = true
@@ -36,11 +35,6 @@ const Verify = async () => {
           required
           class="appearance-none rounded-none relative block px-3 py-2 text-sm border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-red-900 focus:border-red-900 focus:z-10 sm:text-2xl lg:text-sm"
           placeholder="Логин">
-        <label for="Group" class="sr-only">Group</label>
-        <input id="Group" v-model="userGroup" name="Group" type="text" autocomplete="Group"
-          required
-          class="appearance-none rounded-none relative block px-3 py-2 text-sm border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-900 focus:border-red-900 focus:z-10 sm:text-2xl lg:text-sm"
-          placeholder="Группа">
         <label for="password" class="sr-only">Password</label>
         <input id="password" v-model="userPassword" name="password" type="password"
             autocomplete="current-password" required

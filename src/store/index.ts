@@ -6,7 +6,7 @@ export default createStore({
     isModules : false,
     isTimetable: true,
     isOtherPeople: false,
-    group: ""
+    reqestAdress: ""
   },
   getters: {
   },

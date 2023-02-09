@@ -5,7 +5,6 @@ import { DatePicker } from 'v-calendar';
 import BaseIcon from '@/components/BaseIcon.vue';
 import 'v-calendar/dist/style.css';
 
-
 const date = ref<Date>(new Date());
 </script>
 
@@ -28,5 +27,5 @@ const date = ref<Date>(new Date());
     </template>
   </DatePicker>   
   </div>  
-  <TheTimetable></TheTimetable>
+  <TheTimetable :findedDate="date"></TheTimetable>
 </template>
