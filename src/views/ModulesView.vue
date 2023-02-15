@@ -1,39 +1,86 @@
 <script setup lang="ts">
-import { ref,onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import TheModule from '@/components/TheModule.vue'; // @ is an alias to /src
-let id = 0;
-
+import axios from 'axios';
+let semesters = ref<Array<string>>(['---']);
+const modules = ref<Array<module>>()
 
 interface module{
-  name: string,
-  firstModule: number,
-  secondModule: number,
-  offset?: number,
-  exam?: number,
-  id: number
+  subject: subject,
+  marks: marks
 }
 
-const modules = ref<Array<module>>([
-  { name: "Компьютерная графика и геометрия", firstModule: 45, secondModule: 54, offset: 45, id: id++ },
-  { name: "Архитектура ЭВМ и ВС", firstModule: 54, secondModule: 54, exam: 45, id: id++ },
-  { name: "Программирование специализированных вычислительных устройств", firstModule: 45, secondModule: 45, exam: 54, id: id++ },
-  { name: "Политология", firstModule: 45, secondModule: 54, offset: 45, id: id++ },
-  { name: "Физика", firstModule: 54, secondModule: 54, exam: 45, id: id++ },
-  { name: "Иностранный язык", firstModule: 45, secondModule: 45, offset: 54, id: id++ },
-  { name: "Философия", firstModule: 45, secondModule: 54, offset: 45, id: id++ },
-  { name: "Учебная практика", firstModule: 54, secondModule: 54, offset: 45, id: id++ },
-  { name: "Объектно ориентированное программирование", firstModule: 45, secondModule: 45, exam: 54, id: id++ },
-])
+interface subject{
+  title: string,
+  factor: number
+}
+
+interface marks{
+  module1: grade,
+  module2: grade,
+  credit?: grade,
+  exam?: grade
+}
+
+interface grade{ 
+  value: number,
+  color: number
+}
+
+const getModules = async(event: Event) => {
+  try{
+    const semester = event.target as HTMLInputElement;
+    let response = await axios.post("http://localhost:8014/api/getModules", {
+        token: localStorage.getItem("accessToken"),
+        semester: semester.value 
+    })
+    modules.value = response.data.modules
+  }
+  catch(error){
+    console.log(error)
+  }
+}
+
+onMounted( async() => {
+  try{
+    let response = await axios.post("http://localhost:8014/api/getSemesters", {
+        token: localStorage.getItem("accessToken")
+    })
+    semesters.value = response.data
+  }
+  catch(error){
+    console.log(error)
+  }
+  try{
+    let response = await axios.post("http://localhost:8014/api/getModules", {
+        token: localStorage.getItem("accessToken"),
+        semester: semesters.value[semesters.value.length - 1]
+    })
+    modules.value = response.data.modules
+  }
+  catch(error){
+    console.log(error)
+  }
+})
 
 onMounted( () => {
   if(!localStorage.getItem("accessToken")){
     window.location.href = 'https://lk.stankin.ru/webapi/oauth/authorize?response_type=code&client_id=StankinModules&redirect_uri=https://localhost:8080/oauthresponse'
   }
 })
+
+// let rating = computed((): Array<module> => {return modules.value?.filter( mod => { return mod.subject.title == "Рейтинг" }) || []})
 </script>
 
 <template>
-  <div class="flex justify-center items-center h-screen">
+  <div class="flex justify-center">
+    <div class="mt-3 sm:absolute xl:w-96">
+      <select @change="getModules($event)" class="form-select shadow-xl drop-shadow-2xl appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-sky-600 focus:outline-none" aria-label="Default select example">
+        <option v-for="semester in semesters" :key="semester" :value="semester">{{ semester }}</option>
+      </select>
+    </div>
+  </div>
+  <div class="flex justify-center mt-4 mb-3 sm:items-center sm:h-screen">
     <table class="w-4/5 shadow-2xl table-auto rounded bg-white sm:w-1/2">
       <thead class="text-sm sm:text-base">
         <tr class="border-b-2 border-gray-500">
@@ -45,13 +92,13 @@ onMounted( () => {
         </tr>
       </thead>
       <tbody>
-        <TheModule v-for="subject in modules" :key="subject.id" :subjectName="subject.name"
-          :firstModule=subject.firstModule :secondModule=subject.secondModule :offset="subject.offset"
-          :exam="subject.exam"></TheModule>
+        <TheModule v-for="mod in modules" :key=mod.subject.title :subjectName="mod.subject.title"
+        :first-module="mod.marks.module1?.value ?? 0" :secondModule="mod.marks.module2?.value ?? 0" :offset="mod.marks.credit?.value" 
+        :exam="mod.marks.exam?.value"></TheModule>
         <tr>
-          <td class="text-sm sm:text-base">
-            Ожидаемый рейтинг: 54
-          </td>
+            <td class="text-sm sm:text-base">
+            Рейтинг: 44
+            </td>
         </tr>
       </tbody>
     </table>

@@ -4,7 +4,6 @@ import TheRegistration from '@/components/TheRegistration.vue'; // @ is an alias
 import TheAutorisation from '@/components/TheAutorisation.vue'; // @ is an alias to /src
 
 const isNeedRegistration = ref<boolean>(true)
-
 </script>
 
 <template>

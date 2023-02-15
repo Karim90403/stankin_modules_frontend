@@ -2,17 +2,9 @@
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router'
 import router from '../router/index';
-import { useStore } from 'vuex';
 import axios from 'axios';
 
 const route = useRoute()
-const store = useStore()
-
-onMounted(() => {
-    store.state.isModules = true;
-    store.state.isTimetable = false;
-    store.state.isOtherPeople = false;
-})
 
 onMounted(async () => {
     try {
@@ -20,8 +12,7 @@ onMounted(async () => {
             code: route.query.code
         })
         console.log(response.data.access_token); 
-        store.state.access_token = response.data.access_token
-        localStorage.setItem("accessToken", JSON.stringify(store.state.access_token))
+        localStorage.setItem("accessToken", JSON.stringify(response.data.access_token))
         router.push("/modules")
     } catch (error) {
         console.log(error);
@@ -32,6 +23,13 @@ onMounted(async () => {
 </script>
 
 <template>
+    <div class="flex justify-center">
+        <div class="mt-3 absolute xl:w-96">
+            <select class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                <option value="---">---</option>
+            </select>
+        </div>
+    </div>
     <div class="flex justify-center items-center h-screen">
         <table class="w-4/5 shadow-2xl table-auto rounded bg-white sm:w-1/2">
             <thead class="text-sm sm:text-base">

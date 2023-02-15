@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import router from '../router/index';
-import { useStore } from 'vuex';
 import axios from 'axios';
-
-const store = useStore();
 
 const isUserRegistred = ref<boolean>(false)
 const userLogin = ref<string>("")
@@ -14,8 +11,6 @@ const Verify = async () => {
   try {
     let response = await axios.post("http://localhost:8014/api/registration", { login: userLogin.value, password: userPassword.value })
     router.push('/')
-    store.state.verify = true
-    store.state.isTimetable = true
     localStorage.setItem("userToken", JSON.stringify(response.data.token))
   }catch (error) {
     console.log(error);

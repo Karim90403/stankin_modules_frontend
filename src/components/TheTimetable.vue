@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeMount } from 'vue';
+import { useStore } from "vuex";
+import { defineProps } from 'vue';
 import TheTimetablePart from '@/components/TheTimetablePart.vue'; // @ is an alias to /src
 import BaseIcon from '@/components/BaseIcon.vue';
 import axios from 'axios';
-import { useStore } from "vuex";
-import { defineProps } from 'vue';
 
+let id = 0;
 const groupChecker = ref<boolean>(false)
 const mountCheker = ref<boolean>(false)
 const pairsChecker = ref<boolean>(false)
-let id = 0;
 let store = useStore()
 
 interface subject{
