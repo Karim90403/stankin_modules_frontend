@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import TheModule from '@/components/TheModule.vue'; // @ is an alias to /src
+import TheModuleRaiting from '@/components/TheModuleRaiting.vue'; // @ is an alias to /src
 import axios from 'axios';
+
 let semesters = ref<Array<string>>(['---']);
 const modules = ref<Array<module>>()
 
@@ -68,8 +70,6 @@ onMounted( () => {
     window.location.href = 'https://lk.stankin.ru/webapi/oauth/authorize?response_type=code&client_id=StankinModules&redirect_uri=https://localhost:8080/oauthresponse'
   }
 })
-
-// let rating = computed((): Array<module> => {return modules.value?.filter( mod => { return mod.subject.title == "Рейтинг" }) || []})
 </script>
 
 <template>
@@ -95,11 +95,8 @@ onMounted( () => {
         <TheModule v-for="mod in modules" :key=mod.subject.title :subjectName="mod.subject.title"
         :first-module="mod.marks.module1?.value ?? 0" :secondModule="mod.marks.module2?.value ?? 0" :offset="mod.marks.credit?.value" 
         :exam="mod.marks.exam?.value"></TheModule>
-        <tr>
-            <td class="text-sm sm:text-base">
-            Рейтинг: 44
-            </td>
-        </tr>
+        <TheModuleRaiting v-for="mod in modules" :key=mod.subject.title :subjectName="mod.subject.title"
+        :first-module="mod.marks.module1?.value ?? 0"/>
       </tbody>
     </table>
   </div>
