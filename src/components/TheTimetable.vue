@@ -36,16 +36,31 @@ const subjects = ref<Array<subject>>([
 
 onBeforeMount( () => { mountCheker.value = true })
 
-onMounted( async () => {
+onMounted( async () => { 
   try{
-    if(store.state.reqestAdress.lenght === undefined){
-      store.state.reqestAdress = `${eval(localStorage.getItem("reqestAdress") ?? "default")}`
+    if(store.state.isLecturer.lenght === undefined){
+      store.state.group = eval(localStorage.getItem("isLecturer") ?? "false")
     }
-    console.log(`${(store.state.reqestAdress).replaceAll(' ', '.')}&date=${date.value.toISOString().substring(0, 10)}`);
-    let res = await axios.post("http://localhost:8014/api/getData", { url: `${(store.state.reqestAdress).replaceAll(' ', '.')}&date=${date.value.toISOString().substring(0, 10)}`})
+    if(store.state.isLecturer == false){
+      if(store.state.group.lenght === undefined){
+        store.state.group = localStorage.getItem("group") ?? "default"
+      }
+    }
+    else{
+      if(store.state.lecturer.lenght === undefined){
+        store.state.lecturer = localStorage.getItem("lecturer") ?? "default"
+      }
+    }
+
+    let res = await axios.post("http://localhost:8014/api/getTimetable", {
+        isLecturer: store.state.isLecturer,
+        lecturer: eval(store.state.lecturer),
+        group: eval(store.state.group),
+        date: date.value.toISOString().substring(0, 10)
+      })
     console.log(res.data);
     groupChecker.value = true
-    if(res.data.pairs.length > 0){
+    if(res.data.rowCount > 0){
       pairsChecker.value = true
     }
   }

@@ -18,13 +18,15 @@ const lecturersList = ref<Array<string>>(['...'])
 
 const watchData = ():void => {
 	if(inputValue.value.length > 0){
+        store.state.isLecturer = isProfessor.value
+		localStorage.setItem("isLecturer", JSON.stringify(store.state.isLecturer))
 		if(isProfessor.value){
-			store.state.reqestAdress = `https://api.stbot.sdore.me/lecturer/find/?name=${inputValue.value}`
-			localStorage.setItem("reqestAdress", JSON.stringify(store.state.reqestAdress))
+            store.state.lecturer = `${inputValue.value}`
+			localStorage.setItem("lecturer", JSON.stringify(store.state.lecturer))
 		}
 		else{
-			store.state.reqestAdress = `https://api.stbot.sdore.me/schedule/?group=${inputValue.value}`
-			localStorage.setItem("reqestAdress", JSON.stringify(store.state.reqestAdress))
+            store.state.group = `${inputValue.value}`
+			localStorage.setItem("group", JSON.stringify(store.state.group))
 		}
 		if(!store.state.isTimetable){
 			router.push('/')

@@ -2,7 +2,9 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    reqestAdress: ""
+    isLecturer: false,
+    group: "",
+    lecturer: ""
   },
   getters: {
   },
