@@ -36,7 +36,7 @@ const toOtherPeople = ():void => {
   }
 }
 
-const routeName = computed(():string | null | undefined=>{
+const routeName = computed(():string | null | undefined | symbol =>{
   return route.name
 })
 </script>

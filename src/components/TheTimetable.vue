@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeMount } from 'vue';
+import { ref, onMounted, onBeforeMount, watch } from 'vue';
 import { useStore } from "vuex";
 import { defineProps } from 'vue';
 import TheTimetablePart from '@/components/TheTimetablePart.vue'; // @ is an alias to /src
@@ -19,6 +19,18 @@ interface subject{
   auditory: string,
   lecturer: string,
   typeOf: string,
+  group: string,
+  id: number
+}
+
+interface Row{
+  class_name: string,  
+  class_type: string,
+  end_time: string,
+  group_name: string,
+  place: string,
+  professor: string, 
+  start_time: string,
   id: number
 }
 
@@ -27,19 +39,20 @@ const props = defineProps({
 })
 
 const date = ref<Date>(props.findedDate ?? new Date())
+const subjects = ref<Array<subject>>([])
 
-const subjects = ref<Array<subject>>([
-  {startTime: "12:20", endTime: "14:00", name: "Компьютерная графика и геометрия",auditory: "0408", lecturer: "Толок А.В.", typeOf: "Семинары", id: id++,},
-  {startTime: "14:10", endTime: "15:50", name: "Архитектура ЭВМ и ВС", auditory: "0308", lecturer: "Саркисова И.О.", typeOf: "Лабараторные занятия", id: id++},
-  {startTime: "16:00", endTime: "17:40", name: "Программирование специализированных вычислительных устройств", auditory: "210(a)", lecturer: "Волкова О.Р.", typeOf: "Лекции" , id: id++}
-])
+  watch(() => props, findedDate => {
+      console.log(
+        "Watch props.selected function called with args:",
+        findedDate
+      );
+    });
 
 onBeforeMount( () => { mountCheker.value = true })
-
 onMounted( async () => { 
   try{
     if(store.state.isLecturer.lenght === undefined){
-      store.state.group = eval(localStorage.getItem("isLecturer") ?? "false")
+      store.state.isLecturer = eval(localStorage.getItem("isLecturer") ?? "false")
     }
     if(store.state.isLecturer == false){
       if(store.state.group.lenght === undefined){
@@ -51,15 +64,52 @@ onMounted( async () => {
         store.state.lecturer = localStorage.getItem("lecturer") ?? "default"
       }
     }
-
     let res = await axios.post("http://localhost:8014/api/getTimetable", {
         isLecturer: store.state.isLecturer,
         lecturer: eval(store.state.lecturer),
         group: eval(store.state.group),
         date: date.value.toISOString().substring(0, 10)
-      })
-    console.log(res.data);
+      })      
     groupChecker.value = true
+    
+    if(store.state.isLecturer){
+      let groups = ref<Array<string>>([])
+      let lection = ref<string>("")
+      res.data.rows.forEach((row: Row, index: number) => {
+        if(row.class_type == "лекции"){
+          if(lection.value != row.class_name){
+            lection.value = row.class_name
+            groups.value = []
+            groups.value.push(row.group_name)
+          }
+          else {
+            groups.value.push(row.group_name)
+            if(index+1 == res.data.rowCount){
+              subjects.value.push(
+                {startTime: new Date(new Date(row.start_time).getTime()).toLocaleTimeString("ru-RU",  { hour: "2-digit", minute: "2-digit" }), endTime: new Date(new Date(row.end_time).getTime()).toLocaleTimeString("ru-RU",  { hour: "2-digit", minute: "2-digit" }) , name: row.class_name ,auditory: row.place , lecturer: row.professor , typeOf: row.class_type , group: groups.value.join() , id: id++,},
+              )
+            }
+            else if(res.data.rows[index+1].class_name != lection.value){
+              subjects.value.push(
+                {startTime: new Date(new Date(row.start_time).getTime()).toLocaleTimeString("ru-RU",  { hour: "2-digit", minute: "2-digit" }), endTime: new Date(new Date(row.end_time).getTime()).toLocaleTimeString("ru-RU",  { hour: "2-digit", minute: "2-digit" }) , name: row.class_name ,auditory: row.place , lecturer: row.professor , typeOf: row.class_type , group: groups.value.join() , id: id++,},
+              )
+            }
+          }
+        }
+        else{
+          subjects.value.push(
+            {startTime: new Date(new Date(row.start_time).getTime()).toLocaleTimeString("ru-RU",  { hour: "2-digit", minute: "2-digit" }), endTime: new Date(new Date(row.end_time).getTime()).toLocaleTimeString("ru-RU",  { hour: "2-digit", minute: "2-digit" }) , name: row.class_name ,auditory: row.place , lecturer: row.professor , typeOf: row.class_type , group: row.group_name , id: id++,},
+          )
+        }
+      });
+    }
+    else{
+      res.data.rows.forEach((row: Row) => {
+        subjects.value.push(
+          {startTime: new Date(new Date(row.start_time).getTime()).toLocaleTimeString("ru-RU",  { hour: "2-digit", minute: "2-digit" }), endTime: new Date(new Date(row.end_time).getTime()).toLocaleTimeString("ru-RU",  { hour: "2-digit", minute: "2-digit" }) , name: row.class_name ,auditory: row.place , lecturer: row.professor , typeOf: row.class_type , group: row.group_name , id: id++,},
+        )
+      });
+    }
     if(res.data.rowCount > 0){
       pairsChecker.value = true
     }
@@ -81,7 +131,7 @@ onMounted( async () => {
     <BaseIcon class="w-1/4" icon="none" viewBox="0 0 64 64" stroke-width="2" stroke="#000000" fill="none"/>
     Не удалось обнаружить вашу группу
   </div>
-  <div class="text-center absolute top-0 -z-10 text-xl w-screen h-screen flex flex-col justify-center items-center sm:text-2xl" v-else-if="pairsChecker">
+  <div class="text-center absolute top-0 -z-10 text-xl w-screen h-screen flex flex-col justify-center items-center sm:text-2xl" v-else-if="!pairsChecker">
     <BaseIcon class="w-1/4" icon="chill" viewBox="0 0 64 64" stroke-width="3" stroke="#000000" fill="none"/>
     Нет пар
   </div>
@@ -95,6 +145,8 @@ onMounted( async () => {
     :auditory="subject.auditory"
     :lecturer="subject.lecturer"
     :typeSubject="subject.typeOf"
+    :isLecturer="store.state.isLecturer"
+    :group="subject.group"
     ></TheTimetablePart>
   </div>
 </template>
