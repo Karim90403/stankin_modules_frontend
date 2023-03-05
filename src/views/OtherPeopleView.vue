@@ -49,7 +49,7 @@ const blureInput = ():void => {
 
 onMounted(async () => {
     try {
-        let resGroups = await axios.get("http://localhost:8014/api/getGroups")
+        let resGroups = await axios.get("/api/getGroups")
 		groupList.value = resGroups.data
     }catch (error) {
         console.log(error);
@@ -58,7 +58,7 @@ onMounted(async () => {
 
 onMounted(async () => {
     try {
-        let resLectures = await axios.get("http://localhost:8014/api/getLecturers")
+        let resLectures = await axios.get("/api/getLecturers")
         lecturersList.value = resLectures.data
     }catch (error) {
         console.log(error);

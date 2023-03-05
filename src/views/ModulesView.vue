@@ -32,7 +32,7 @@ interface grade{
 const getModules = async(event: Event) => {
   try{
     const semester = event.target as HTMLInputElement;
-    let response = await axios.post("http://localhost:8014/api/getModules", {
+    let response = await axios.post("/api/getModules", {
         token: localStorage.getItem("accessToken"),
         semester: semester.value 
     })
@@ -45,7 +45,7 @@ const getModules = async(event: Event) => {
 
 onMounted( async() => {
   try{
-    let response = await axios.post("http://localhost:8014/api/getSemesters", {
+    let response = await axios.post("/api/getSemesters", {
         token: localStorage.getItem("accessToken")
     })
     semesters.value = response.data
@@ -54,7 +54,7 @@ onMounted( async() => {
     console.log(error)
   }
   try{
-    let response = await axios.post("http://localhost:8014/api/getModules", {
+    let response = await axios.post("/api/getModules", {
         token: localStorage.getItem("accessToken"),
         semester: semesters.value[semesters.value.length - 1]
     })

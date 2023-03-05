@@ -64,7 +64,7 @@ onMounted( async () => {
         store.state.lecturer = localStorage.getItem("lecturer") ?? "default"
       }
     }
-    let res = await axios.post("http://localhost:8014/api/getTimetable", {
+    let res = await axios.post("/api/getTimetable", {
         isLecturer: store.state.isLecturer,
         lecturer: eval(store.state.lecturer),
         group: eval(store.state.group),
