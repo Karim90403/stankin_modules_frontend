@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import router from '../router/index';
-import { useStore } from 'vuex';
 import axios from 'axios';
-
-const store = useStore()
 
 const isProfessor = ref<boolean>(false)
 const activeFlag = ref<boolean>(false)
@@ -18,22 +15,14 @@ const lecturersList = ref<Array<string>>(['...'])
 
 const watchData = ():void => {
 	if(inputValue.value.length > 0){
-        store.state.isLecturer = isProfessor.value
-		localStorage.setItem("isLecturer", JSON.stringify(store.state.isLecturer))
+		localStorage.setItem("isLecturer", JSON.stringify(isProfessor.value))
 		if(isProfessor.value){
-            store.state.lecturer = `${inputValue.value}`
-			localStorage.setItem("lecturer", JSON.stringify(store.state.lecturer))
+			localStorage.setItem("lecturer", inputValue.value)
 		}
 		else{
-            store.state.group = `${inputValue.value}`
-			localStorage.setItem("group", JSON.stringify(store.state.group))
+			localStorage.setItem("group", inputValue.value)
 		}
-		if(!store.state.isTimetable){
-			router.push('/')
-			store.state.isModules = false;
-			store.state.isTimetable = true;
-			store.state.isOtherPeople = false;
-		}
+		router.push('/')
 	}
 }
 

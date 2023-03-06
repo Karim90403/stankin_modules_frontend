@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeMount, watch } from 'vue';
-import { useStore } from "vuex";
+import { ref, onMounted, onBeforeMount } from 'vue';
 import { defineProps } from 'vue';
 import TheTimetablePart from '@/components/TheTimetablePart.vue'; // @ is an alias to /src
 import BaseIcon from '@/components/BaseIcon.vue';
@@ -10,7 +9,6 @@ let id = 0;
 const groupChecker = ref<boolean>(false)
 const mountCheker = ref<boolean>(false)
 const pairsChecker = ref<boolean>(false)
-let store = useStore()
 
 interface subject{
   startTime: string,
@@ -41,38 +39,20 @@ const props = defineProps({
 const date = ref<Date>(props.findedDate ?? new Date())
 const subjects = ref<Array<subject>>([])
 
-  watch(() => props, findedDate => {
-      console.log(
-        "Watch props.selected function called with args:",
-        findedDate
-      );
-    });
+let isLecturer = ref<boolean>(localStorage.getItem("isLecturer")==='true')
 
 onBeforeMount( () => { mountCheker.value = true })
 onMounted( async () => { 
   try{
-    if(store.state.isLecturer.lenght === undefined){
-      store.state.isLecturer = eval(localStorage.getItem("isLecturer") ?? "false")
-    }
-    if(store.state.isLecturer == false){
-      if(store.state.group.lenght === undefined){
-        store.state.group = localStorage.getItem("group") ?? "default"
-      }
-    }
-    else{
-      if(store.state.lecturer.lenght === undefined){
-        store.state.lecturer = localStorage.getItem("lecturer") ?? "default"
-      }
-    }
     let res = await axios.post("/api/getTimetable", {
-        isLecturer: store.state.isLecturer,
-        lecturer: eval(store.state.lecturer),
-        group: eval(store.state.group),
+        isLecturer: isLecturer.value,
+        lecturer: localStorage.getItem("lecturer"),
+        group: localStorage.getItem("group"),
         date: date.value.toISOString().substring(0, 10)
       })      
     groupChecker.value = true
-    
-    if(store.state.isLecturer){
+    console.log(res.data)
+    if(isLecturer.value){
       let groups = ref<Array<string>>([])
       let lection = ref<string>("")
       res.data.rows.forEach((row: Row, index: number) => {
@@ -135,7 +115,7 @@ onMounted( async () => {
     <BaseIcon class="w-1/4" icon="chill" viewBox="0 0 64 64" stroke-width="3" stroke="#000000" fill="none"/>
     Нет пар
   </div>
-  <div class="flex items-center flex-col mt-12" v-else-if="subjects.length > 0">
+  <div class="flex items-center mb-16 flex-col mt-12" v-else-if="subjects.length > 0">
     <TheTimetablePart 
     v-for="subject in subjects"
     :key="subject.id"
@@ -145,7 +125,6 @@ onMounted( async () => {
     :auditory="subject.auditory"
     :lecturer="subject.lecturer"
     :typeSubject="subject.typeOf"
-    :isLecturer="store.state.isLecturer"
     :group="subject.group"
     ></TheTimetablePart>
   </div>
