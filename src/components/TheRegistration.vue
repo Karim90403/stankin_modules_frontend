@@ -9,7 +9,7 @@ const userPassword = ref<string>("")
 
 const Verify = async () => {
   try {
-    let response = await axios.post("http://localhost:8014/api/registration", { login: userLogin.value, password: userPassword.value })
+    let response = await axios.post("/api/registration", { login: userLogin.value, password: userPassword.value })
     router.push('/')
     localStorage.setItem("userToken", JSON.stringify(response.data.token))
   }catch (error) {

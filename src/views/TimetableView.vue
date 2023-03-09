@@ -1,16 +1,22 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref,nextTick } from 'vue';
 import TheTimetable from '@/components/TheTimetable.vue'; // @ is an alias to /src
 import { DatePicker } from 'v-calendar';
 import BaseIcon from '@/components/BaseIcon.vue';
 import 'v-calendar/dist/style.css';
 
 const date = ref<Date>(new Date());
+const rerander = ref<boolean>(true);
+const Update = async() => {
+  rerander.value = false;
+	await nextTick();
+  rerander.value = true;
+}
 </script>
 
 <template>
   <div class="flex justify-center mt-8 sm:mt-12">
-  <DatePicker v-model="date" :min-date="new Date()">
+  <DatePicker v-model="date" @dayclick='Update'>
     <template v-slot="{ inputValue, togglePopover }">
       <div class="flex justify-center">
         <button
@@ -27,5 +33,5 @@ const date = ref<Date>(new Date());
     </template>
   </DatePicker>   
   </div>  
-  <TheTimetable :findedDate="date"></TheTimetable>
+  <TheTimetable v-if="rerander" :findedDate="date"></TheTimetable>
 </template>

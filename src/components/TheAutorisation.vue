@@ -9,7 +9,7 @@ const showMessage = ref<boolean>(false)
 
 const Login = async () => {
   try {
-    let response = await axios.post("http://localhost:8014/api/autorisation", { login: userLogin.value, password: userPassword.value })
+    let response = await axios.post("/api/autorisation", { login: userLogin.value, password: userPassword.value })
     router.push('/')
     localStorage.setItem("userToken", JSON.stringify(response.data.token))
   }catch (error) {
