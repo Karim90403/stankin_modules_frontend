@@ -51,11 +51,10 @@ onMounted( async () => {
         date: date.value.toISOString().substring(0, 10)
       })      
     groupChecker.value = true
-    console.log(res.data)
     if(isLecturer.value){
       let groups = ref<Array<string>>([])
       let lection = ref<string>("")
-      res.data.rows.forEach((row: Row, index: number) => {
+      res.data.forEach((row: Row, index: number) => {
         if(row.class_type == "лекции"){
           if(lection.value != row.class_name){
             lection.value = row.class_name
@@ -69,7 +68,7 @@ onMounted( async () => {
                 {startTime: new Date(new Date(row.start_time).getTime()).toLocaleTimeString("ru-RU",  { hour: "2-digit", minute: "2-digit" }), endTime: new Date(new Date(row.end_time).getTime()).toLocaleTimeString("ru-RU",  { hour: "2-digit", minute: "2-digit" }) , name: row.class_name ,auditory: row.place , lecturer: row.professor , typeOf: row.class_type , group: groups.value.join() , id: id++,},
               )
             }
-            else if(res.data.rows[index+1].class_name != lection.value){
+            else if(res.data[index+1].class_name != lection.value){
               subjects.value.push(
                 {startTime: new Date(new Date(row.start_time).getTime()).toLocaleTimeString("ru-RU",  { hour: "2-digit", minute: "2-digit" }), endTime: new Date(new Date(row.end_time).getTime()).toLocaleTimeString("ru-RU",  { hour: "2-digit", minute: "2-digit" }) , name: row.class_name ,auditory: row.place , lecturer: row.professor , typeOf: row.class_type , group: groups.value.join() , id: id++,},
               )
@@ -84,13 +83,13 @@ onMounted( async () => {
       });
     }
     else{
-      res.data.rows.forEach((row: Row) => {
+      res.data.forEach((row: Row) => {
         subjects.value.push(
           {startTime: new Date(new Date(row.start_time).getTime()).toLocaleTimeString("ru-RU",  { hour: "2-digit", minute: "2-digit" }), endTime: new Date(new Date(row.end_time).getTime()).toLocaleTimeString("ru-RU",  { hour: "2-digit", minute: "2-digit" }) , name: row.class_name ,auditory: row.place , lecturer: row.professor , typeOf: row.class_type , group: row.group_name , id: id++,},
         )
       });
     }
-    if(res.data.rowCount > 0){
+    if(res.data.length > 0){
       pairsChecker.value = true
     }
   }
