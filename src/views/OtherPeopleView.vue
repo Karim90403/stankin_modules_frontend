@@ -1,45 +1,38 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import router from '../router/index';
 import { useStore } from 'vuex';
+import axios from 'axios';
 
 const store = useStore()
 
 const isProfessor = ref<boolean>(false)
-const inputValue = ref<string>("")
 const activeFlag = ref<boolean>(false)
+const inputValue = ref<string>("")
 
 const watchProfessor = ():void => {isProfessor.value = true}
 const watchGroup = ():void => {isProfessor.value = false}
 const clearValue = ():void => {inputValue.value = ""}
-const groupList = ref<Array<string>>([
-    "ИДБ-21-01",
-    "ИДБ-21-02",
-    "ИДБ-21-03",
-    "ИДБ-21-04",
-    "ИДБ-21-05",
-    "ИДБ-21-06",
-    "ИДБ-21-07",
-    "ИДБ-21-08",
-    "ИДБ-21-09",
-    "ИДБ-21-10",
-    "ИДБ-21-11",
-    "ИДБ-21-12",
-])
+const groupList = ref<Array<string>>(['...'])
+const lecturersList = ref<Array<string>>(['...'])
 
-const professorList = ref<Array<string>>([
-    "Толок А.В.",
-    "Саркисова И.О.",
-    "Волкова О.Р."
-])
-
-const toTimetable = ():void => {
-  if(!store.state.isTimetable){
-    router.push('/timetable')
-    store.state.isModules = false;
-    store.state.isTimetable = true;
-    store.state.isOtherPeople = false;
-  }
+const watchData = ():void => {
+	if(inputValue.value.length > 0){
+		if(isProfessor.value){
+			store.state.reqestAdress = `https://api.stbot.sdore.me/lecturer/find/?name=${inputValue.value}`
+			localStorage.setItem("reqestAdress", JSON.stringify(store.state.reqestAdress))
+		}
+		else{
+			store.state.reqestAdress = `https://api.stbot.sdore.me/schedule/?group=${inputValue.value}`
+			localStorage.setItem("reqestAdress", JSON.stringify(store.state.reqestAdress))
+		}
+		if(!store.state.isTimetable){
+			router.push('/')
+			store.state.isModules = false;
+			store.state.isTimetable = true;
+			store.state.isOtherPeople = false;
+		}
+	}
 }
 
 const changeInput = (newValue:string):void => {
@@ -52,9 +45,27 @@ const blureInput = ():void => {
     setTimeout(chengeFlag,100)
 }
 
- const filtredList = computed(():Array<string> =>{
+onMounted(async () => {
+    try {
+        let resGroups = await axios.get("http://localhost:8014/api/getGroups")
+		groupList.value = resGroups.data
+    }catch (error) {
+        console.log(error);
+    }
+})
+
+onMounted(async () => {
+    try {
+        let resLectures = await axios.get("http://localhost:8014/api/getLecturers")
+        lecturersList.value = resLectures.data
+    }catch (error) {
+        console.log(error);
+    }
+})
+
+const filtredList = computed(():Array<string> =>{
     if(isProfessor.value){
-        return professorList.value.filter(name => {
+        return lecturersList.value.filter(name => {
             return name.toUpperCase().indexOf(inputValue.value.toUpperCase()) !== -1
         })
     }
@@ -71,16 +82,13 @@ const blureInput = ():void => {
         <div class="w-4/5 shadow-2xl py-7 rounded bg-white sm:w-1/2">
             <span class="text-xl text-center block w-full text-black sm:text-2xl">Узнать расписание</span>
             <div class="flex justify-around my-10">
-                <span class="text-lg cursor-pointer transition duration-300 sm:text-xl" :class="!isProfessor ? 'text-emerald-300 border-b border-emerald-300' : 'text-slate-400 hover:border-b hover:border-slate-400'" @click="watchGroup()">Группы</span>
-                <span class="text-lg cursor-pointer transition duration-300 sm:text-xl" :class="isProfessor ? 'text-emerald-300 border-b border-emerald-300' : 'text-slate-400 hover:border-b hover:border-slate-400'" @click="watchProfessor()">Преподавателя</span>
+                <span class="text-lg cursor-pointer transition duration-300 sm:text-xl" :class="!isProfessor ? 'text-cyan-600 border-b border-cyan-600' : 'text-slate-400 hover:border-b hover:border-slate-400'" @click="watchGroup()">Группы</span>
+                <span class="text-lg cursor-pointer transition duration-300 sm:text-xl" :class="isProfessor ? 'text-cyan-600 border-b border-cyan-600' : 'text-slate-400 hover:border-b hover:border-slate-400'" @click="watchProfessor()">Преподавателя</span>
             </div>
             <div class="flex justify-center mt-10">
                 <div class="flex w-5/6 items-center border-b border-slate-500 py-2 sm:w-2/3">
                     <input class="appearance-none text-xs bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none sm:text-lg" v-model="inputValue" @focus="activeFlag = true" @blur="blureInput()" type="text" :placeholder="isProfessor ? 'Введите ФИО': 'Введите номер'" aria-label="Full name">
-                    <button class="flex-shrink-0 bg-slate-500 text-xs hover:bg-slate-700 border-slate-500 hover:border-slate-700 border-2 text-white py-1 px-2 rounded sm:text-sm sm:border-4" type="button">
-                    Ввести
-                    </button>
-                    <button class="flex-shrink-0 text-xs border-transparent border text-slate-500 hover:text-slate-800 py-1 px-2 rounded sm:text-sm" type="button" @click="clearValue()">
+                    <button class="flex-shrink-0 bg-slate-500 text-xs shadow-md drop-shadow-2xl hover:bg-slate-700 border-slate-500 hover:border-slate-700 border-2 text-white py-1 px-2 rounded sm:text-sm sm:border-4" type="button" @click="clearValue">
                     Стереть
                     </button>
                 </div>
@@ -89,7 +97,7 @@ const blureInput = ():void => {
                 <div class="w-4/5 flex justify-center sm:w-1/2">
                     <ul class="px-2 py-2 w-5/6 overflow-x-scroll shadow-xl rounded-t-none text-base bg-slate-100 transition-all duration-300 ease-in-out h-auto max-h-60 rounded sm:max-h-72 sm:w-2/3 sm:text-sm" v-if="filtredList.length > 0" :class="activeFlag ? '' : 'h-0 py-0 overflow-hidden'">
                         <li v-for="(name) in filtredList" :key="name" @click="changeInput(name)"
-                            class="px-2 py-1 cursor-pointer sm:text-2xl lg:text-xl">
+                            class="px-2 py-1 cursor-pointer w-full sm:text-2xl lg:text-xl">
                             {{ name }}
                         </li>
                     </ul>
@@ -97,7 +105,7 @@ const blureInput = ():void => {
                 
             </div>
             <div class="flex justify-center mb-3 mt-8">
-                <span class="group relative text-center cursor-pointer mt-5 py-2 w-2/3 border text-xs font-medium rounded-md text-white bg-slate-500 hover:bg-slate-600 focus:ring-2 focus:ring-offset-2 focus:ring-slate-700 sm:text-2xl lg:text-sm sm:w-1/2" @click="toTimetable()">
+                <span class="group relative text-center shadow-xl drop-shadow-2xl cursor-pointer mt-5 py-2 w-2/3 border border-slate-500 text-xs font-medium rounded-md text-white bg-slate-500 hover:bg-slate-600 focus:ring-2 focus:ring-offset-2 focus:ring-slate-700 lg:text-sm sm:w-1/2" @click="watchData()">
                     Посмотреть расписание
                 </span>
              </div>

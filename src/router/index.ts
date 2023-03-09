@@ -3,6 +3,8 @@ import RegistrationView from '../views/RegistrationView.vue'
 import TimetableView from '../views/TimetableView.vue'
 import ModulesView from '../views/ModulesView.vue'
 import OtherPeopleView from '../views/OtherPeopleView.vue'
+import OauthresponseView from '../views/OauthresponseView.vue'
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -11,7 +13,7 @@ const routes: Array<RouteRecordRaw> = [
     component: RegistrationView
   },
   {
-    path: '/timetable',
+    path: '/',
     name: 'timetable',
     component: TimetableView
   },
@@ -24,6 +26,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/otherPeople',
     name: 'otherPeople',
     component: OtherPeopleView
+  },
+  {
+    path: '/oauthresponse',
+    name: 'oauthresponse',
+    component: OauthresponseView
   },
 ]
 
