@@ -8,7 +8,7 @@ const route = useRoute()
 
 onMounted(async () => {
     try {
-        let response = await axios.post("http://localhost:8014/api/getToken", {
+        let response = await axios.post("/api/getToken", {
             code: route.query.code
         })
         console.log(response.data.access_token); 

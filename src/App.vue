@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, computed } from 'vue';
+import { computed } from 'vue';
 import router from './router/index';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router'
@@ -36,16 +36,7 @@ const toOtherPeople = ():void => {
   }
 }
 
-onMounted(() => {
-    if(localStorage.getItem("userToken")){
-      store.state.verify = true;
-    }
-    if(!store.state.verify){
-      router.push('/register')
-    }
-})
-
-const routeName = computed(():string =>{
+const routeName = computed(():string | null | undefined | symbol =>{
   return route.name
 })
 </script>

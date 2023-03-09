@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import router from '../router/index';
-import { useStore } from 'vuex';
 import axios from 'axios';
-
-const store = useStore()
 
 const isProfessor = ref<boolean>(false)
 const activeFlag = ref<boolean>(false)
@@ -18,20 +15,14 @@ const lecturersList = ref<Array<string>>(['...'])
 
 const watchData = ():void => {
 	if(inputValue.value.length > 0){
+		localStorage.setItem("isLecturer", JSON.stringify(isProfessor.value))
 		if(isProfessor.value){
-			store.state.reqestAdress = `https://api.stbot.sdore.me/lecturer/find/?name=${inputValue.value}`
-			localStorage.setItem("reqestAdress", JSON.stringify(store.state.reqestAdress))
+			localStorage.setItem("lecturer", inputValue.value)
 		}
 		else{
-			store.state.reqestAdress = `https://api.stbot.sdore.me/schedule/?group=${inputValue.value}`
-			localStorage.setItem("reqestAdress", JSON.stringify(store.state.reqestAdress))
+			localStorage.setItem("group", inputValue.value)
 		}
-		if(!store.state.isTimetable){
-			router.push('/')
-			store.state.isModules = false;
-			store.state.isTimetable = true;
-			store.state.isOtherPeople = false;
-		}
+		router.push('/')
 	}
 }
 
@@ -47,7 +38,7 @@ const blureInput = ():void => {
 
 onMounted(async () => {
     try {
-        let resGroups = await axios.get("http://localhost:8014/api/getGroups")
+        let resGroups = await axios.get("/api/getGroups")
 		groupList.value = resGroups.data
     }catch (error) {
         console.log(error);
@@ -56,7 +47,7 @@ onMounted(async () => {
 
 onMounted(async () => {
     try {
-        let resLectures = await axios.get("http://localhost:8014/api/getLecturers")
+        let resLectures = await axios.get("/api/getLecturers")
         lecturersList.value = resLectures.data
     }catch (error) {
         console.log(error);
