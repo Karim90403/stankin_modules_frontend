@@ -67,7 +67,7 @@ onMounted( async() => {
 
 onMounted( () => {
   if(!localStorage.getItem("accessToken")){
-    window.location.href = 'https://lk.stankin.ru/webapi/oauth/authorize?response_type=code&client_id=StankinModules&redirect_uri=https://localhost:8080/oauthresponse'
+    window.location.href = 'https://lk.stankin.ru/webapi/oauth/authorize?response_type=code&client_id=StankinModules&redirect_uri=https://stankinstudy.online/oauthresponse'
   }
 })
 </script>
